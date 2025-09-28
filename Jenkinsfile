@@ -29,12 +29,15 @@ pipeline {
         
 
         stage('Deploy') {
-            steps {
-                echo "🚀 Deploying Docker container..."
-                bat 'docker stop hello-world-app || true'
-                bat 'docker rm hello-world-app || true'
-                bat "docker run -d --name hello-world-app -p 8080:8080 $USER/hello-world-app:latest"
-            }
-        }
+    steps {
+        echo "🚀 Deploying Docker container..."
+        bat """
+        docker stop hello-world-app
+        docker rm hello-world-app
+        docker run -d -p 8080:8080 --name hello-world-app arya/hello-world-app:latest
+        """
+    }
+}
+
     }
 }

@@ -13,9 +13,9 @@ public class HelloController {
 	public String hello() {
 		return "Hello From Docker";
 	}
-	@GetMapping("/name")
-	public String name(@RequestParam String name) {
-		return "Hello "+ name;
-	}
+	@GetMapping("/greet")
+    public String greet(@RequestParam String name) {
+        return "Hello " + name + " bhai";
+    }
 	
 }

@@ -26,16 +26,7 @@ pipeline {
             }
         }
 
-        stage('Docker Push') {
-            steps {
-                echo "⬆️ Pushing Docker image to DockerHub..."
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    bat 'echo $PASS | docker login -u $USER --password-stdin'
-                    bat "docker tag hello-world-app $USER/hello-world-app:latest"
-                    bat "docker push $USER/hello-world-app:latest"
-                }
-            }
-        }
+        
 
         stage('Deploy') {
             steps {

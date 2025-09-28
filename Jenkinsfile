@@ -15,14 +15,14 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 echo "🔨 Building Spring Boot app..."
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
             }
         }
 
         stage('Docker Build') {
             steps {
                 echo "🐳 Building Docker image..."
-                sh "docker build -t ${DOCKER_IMAGE} ."
+                bat "docker build -t ${DOCKER_IMAGE} ."
             }
         }
 
@@ -30,9 +30,9 @@ pipeline {
             steps {
                 echo "⬆️ Pushing Docker image to DockerHub..."
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh 'echo $PASS | docker login -u $USER --password-stdin'
-                    sh "docker tag hello-world-app $USER/hello-world-app:latest"
-                    sh "docker push $USER/hello-world-app:latest"
+                    bat 'echo $PASS | docker login -u $USER --password-stdin'
+                    bat "docker tag hello-world-app $USER/hello-world-app:latest"
+                    bat "docker push $USER/hello-world-app:latest"
                 }
             }
         }
@@ -40,9 +40,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "🚀 Deploying Docker container..."
-                sh 'docker stop hello-world-app || true'
-                sh 'docker rm hello-world-app || true'
-                sh "docker run -d --name hello-world-app -p 8080:8080 $USER/hello-world-app:latest"
+                bat 'docker stop hello-world-app || true'
+                bat 'docker rm hello-world-app || true'
+                bat "docker run -d --name hello-world-app -p 8080:8080 $USER/hello-world-app:latest"
             }
         }
     }

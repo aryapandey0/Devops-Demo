@@ -34,7 +34,7 @@ pipeline {
         bat """
         docker stop hello-world-app
         docker rm hello-world-app
-        docker run -d -p 8080:8080 --name hello-world-app arya/hello-world-app:latest
+        docker run -d -p 8081:8081 --name hello-world-app arya/hello-world-app:latest
         """
     }
 }
